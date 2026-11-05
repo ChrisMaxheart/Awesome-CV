@@ -18,7 +18,10 @@ for number, page in enumerate(pages, 1):
                 continue
             dx = min(a[2], b[2]) - max(a[0], b[0])
             dy = min(a[3], b[3]) - max(a[1], b[1])
-            if dx > 1 and dy > 1:
+            # Font boxes include unused ascender/descender space, so adjacent
+            # lines can intersect slightly even when their visible glyphs do not.
+            height = min(a[3] - a[1], b[3] - b[1])
+            if dx > 1 and dy > 0.35 * height:
                 errors.append(f"Page {number}: {text_a!r} intersects {text_b!r} ({dx:.1f} x {dy:.1f} pt)")
 print(f"PDF layout: {len(pages)} page(s); {len(errors)} text intersections.")
 for error in errors[:20]:
