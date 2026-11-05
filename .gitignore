@@ -21,3 +21,8 @@
 ## Mac OS X metadata files:
 *.DS_Store
 
+
+## latexmk / XeLaTeX build intermediates:
+*.fdb_latexmk
+*.xdv
+*.synctex.gz
