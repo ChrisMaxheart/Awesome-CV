@@ -1,17 +1,17 @@
-.PHONY: examples
+.PHONY: all examples cv clean
+.DEFAULT_GOAL := cv
 
-CC = xelatex
 EXAMPLES_DIR = examples
-CV_DIR = examples/cv
-CV_SRCS = $(shell find $(CV_DIR) -name '*.tex')
+CV_SRCS = $(wildcard $(EXAMPLES_DIR)/cv/*.tex)
+CV_ASSETS = awesome-cv.cls fontawesome.sty $(wildcard fonts/*)
+LATEXMK ?= latexmk
 
-examples: $(foreach x, coverletter cv resume, $x.pdf)
+all examples: cv
 
-cv: $(EXAMPLES_DIR)/cv.tex $(CV_SRCS)
-	$(CC) -output-directory=$(EXAMPLES_DIR) $<
+cv: $(EXAMPLES_DIR)/cv.pdf
 
-coverletter.pdf: $(EXAMPLES_DIR)/coverletter.tex
-	$(CC) -output-directory=$(EXAMPLES_DIR) $<
+$(EXAMPLES_DIR)/cv.pdf: $(EXAMPLES_DIR)/cv.tex $(CV_SRCS) $(CV_ASSETS)
+	cd $(EXAMPLES_DIR) && $(LATEXMK) -xelatex -file-line-error -halt-on-error -interaction=nonstopmode cv.tex
 
 clean:
-	rm -rf $(EXAMPLES_DIR)/*.pdf
+	cd $(EXAMPLES_DIR) && $(LATEXMK) -c cv.tex

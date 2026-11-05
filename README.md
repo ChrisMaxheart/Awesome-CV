@@ -74,6 +74,19 @@ You can see [PDF](https://raw.githubusercontent.com/posquit0/Awesome-CV/master/e
 **_Note:_ Above services do not guarantee up-to-date source code of Awesome CV**
 
 
+## Building this CV
+
+The CV source is `examples/cv.tex`, with individual sections under `examples/cv/`.
+Run `make` (or `make cv`) with TeX Live, XeLaTeX, and latexmk installed to regenerate
+`examples/cv.pdf`. The build runs from `examples/` so the section and font paths resolve correctly.
+
+The **Build CV PDF** GitHub Actions workflow compiles the CV after every branch push,
+uploads the generated PDF as a workflow artifact, and commits the refreshed
+`examples/cv.pdf` to the same branch. A failed compilation does not replace the
+committed PDF. If a newer push arrives during a build, the older build does not
+write its PDF over that newer revision. PDF commits made with `GITHUB_TOKEN` do
+not trigger another push build.
+
 ## How to Use
 
 #### Requirements
